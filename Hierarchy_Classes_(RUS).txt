@@ -2,7 +2,7 @@
 состоянием на 24.04.20
  1. Object (Объект)*
 	1.1. Object_image (Образ объекта)
-		1.1.1. Object_geometry_parameters (Геометрические параметры объекта (образа))
+		1.1.1. Object_geometric_parameters (Геометрические параметры объекта (образа))
 		1.1.2. Object_energy_parameters (Энергетические параметры объекта (образа))
 	1.2. Object_hierarchy (Иерархия объектов)
 	1.3. Brain_activity (Мозговая активность)
