@@ -1,0 +1,67 @@
+Object class development
+
+!!! Sorry for bad English.
+
+The Object class does not use a database connection. The database is connected only to the Zander_how_person class for writing and reading information about interesting objects.
+The required hierarchy of objects.
+
+Example of an assembled object:
+1. Man (Assembled object : Level 1)
+	1.1.Head (Assembled object : Level 2)
+		1.1.1. Hair
+		1.1.2. Forehead
+		1.1.3. Eyebrow (left)
+		1.1.4. Eyebrow (right)
+		(...)
+	1.2. Neck
+	1.3. Torso
+	(...)
+
+Each of the objects in the hierarchy of assembly objects must return parameter values. Hierarchy objects.
+Question. What should be the parameters that should be returned?
+
+Answer.
+Parameters and functions in the Object class.
+1. Name of the object (array of values)
+2. Name (array of values)
+3. Image (array formed)
+	3.1. Geometric parameters (2d or 3d)
+	3.2. Energy parameters (2d or 3d)
+4. The hierarchy of objects (array of type String)
+5. Geometric parameters between hierarchy objects
+6. Energy parameters between hierarchy objects
+7. Does it have intelligence (logical value; in the event that it is true, then the brain activity, mental process and energy are assigned to the object)
+
+The object is represented in 2d, respectively, it is necessary to have an array of educated objects.
+The length and width, between the central images, should be at a level higher in the hierarchy of objects.
+For example, an open and closed eye, a raised or lowered upper lip, etc.
+Question. To bring to them geometric parameters between objects?
+Question. Are geometric parameters necessary for objects or objects located in a prefabricated object(s) that are located higher in the hierarchy of objects?
+Question. Perhaps you should use some identifier value for such cases?
+Answer. For example, this image object, for example, “head”, with identifier data, whereas in the first place
+
+Let's say.
+
+Question. Will the system be able to independently recognize and compose a hierarchy of objects?
+Question. Tattoos or accessories on the human body that need to be recognized?
+Answer. An appropriate list can be obtained. A hierarchy of objects, but not formed, can be added to a new object. A new object can be filled with information (dialogs between users and staff).
+Object_name and name.
+Question. What if an object can exist in several forms?
+This can happen if the user puts a hat on his head or holds a newspaper in his hand. In this case, a comparable education is necessary, the result of which is a percentage assessment of the comparison.
+Question. To other objects (objects)?
+You can take note of one or more objects. All of them have geometric parameters. That is, if the geometric parameters between the framing objects are not violated.
+Question. Is it good to recognize an object? To get the best pattern (image) recognition results?
+Answer.
+1. Initially, all images should be obtained from images that were obtained from the Blue-channel (RGB) camera (high resolution).
+2. First, it is necessary to determine the signal-to-noise ratio or signal deviation - for each of the photoelectric elements (camera pixels).
+3. The sample template should be formed, at best, from the arithmetic mean of the n-quantity formed.
+4. Recognition should be made on both images.
+Question. How to reduce resource consumption in order to increase the speed of software?
+Question. How can I improve the pattern recognition algorithm (images)?
+Answer. In humans, the visual system consists of peripheral vision, on which pattern recognition is difficult, as well as concentrated central vision. Keeping an eye on the contour of the image(s) allows you to obtain information about the object, to recognize it.
+In the best case, the system should have, in addition, engine blocks, the action of which will allow to respond to the movement of the object, which was determined in the peripheral part of the vision, how the complete visual system in a person works. However, if the camera is in one position, then recognition can be carried out by comparing the contours (images) with known images using the well-known iterative snake algorithm, the action of which starts from the center of the image.
+If the result of processing two images showed that in the peripheral part of the vision there is an object that is in motion, therefore, such an object needs recognition. In this case, such an algorithm can also be used.
+Question. What to do if in the process of recognition (data recording) of an object, the user stops responding to the questions posed, or leaves the person’s visual zone?
+Answer. You can repeat the question. If no response is received, the exchange of information should be completed. There are situations in which speech recognition is difficult. In such cases, the system should offer to repeat the user's statement, or enter it from the keyboard.
+
+In real time, the system replenishes knowledge about the object, receives its images. At the moment when there is no interaction between the object (user) and the person, the procedure for deleting similar images can be started. All images should be reduced to one, single, scale. This information is also useful for obtaining information about the distance between the subject and the camera.
