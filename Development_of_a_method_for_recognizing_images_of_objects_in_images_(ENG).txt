@@ -10,7 +10,7 @@ Images of hierarchy objects can be submitted to the comparison procedure with th
 
 Question. How to replenish data (images) in a new object, for example, if the object changes its location relative to the camera?
 (...)
-Answer. The image is a complex figure with a closed loop.
+Conclusion. The image is a complex figure with a closed loop.
 In order to increase the productivity of the software, the procedure for recognizing an object with great deepening into the following levels of the hierarchy of objects can be performed once in a single session, or several times after a certain set time interval, of information exchange. The rest of the time, you can use the simplified recognition algorithm, which includes the recognition of the image of an object according to a rough template. A simplified algorithm can be used if the objects have not changed their position or are out of touch with each other.
 There are two types of images in the object - coarse and precise.
 An accurate image is necessary to identify a specific object, for example, a user - the owner of the house, a rough one - for further monitoring of his actions.
@@ -19,7 +19,7 @@ A crude image may be suitable for more accurate images.
 A rough image can be used for preliminary recognition of a new object, recognition of the type of object.
 
 Question. Is the gross image based on an accurate image using tolerance? Is there a separate file that describes rough tolerance optional?
-Answer. For the reliability (assessment) of pattern recognition results, the tolerance value is responsible.
+Conclusion. For the reliability (assessment) of pattern recognition results, the tolerance value is responsible.
 
 The essence of recognition is to obtain, as a result, an assessment of the comparison of two images - contours.
 In this case, the assessment should be obtained only if the contour elements coincide, not others - external or internal.
