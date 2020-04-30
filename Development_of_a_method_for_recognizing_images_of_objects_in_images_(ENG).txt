@@ -1,0 +1,104 @@
+Development of a method for recognizing images of objects in images
+
+Sorry for bad English
+
+Basic information.
+Learning algorithm, writing to the database of a new object.
+If this is really a new object, then, initially, it is necessary to add images whose images were obtained by the camera while observing the object, the location of which was the front, front, to the camera (in other words, in full view).
+In this case, using the training procedure, you can check the added (recognized) data. It is carried out using a dialogue between the user and the person.
+Images of hierarchy objects can be submitted to the comparison procedure with the image of interest. Or vice versa.
+
+Question. How to replenish data (images) in a new object, for example, if the object changes its location relative to the camera?
+(...)
+Answer. The image is a complex figure with a closed loop.
+In order to increase the productivity of the software, the procedure for recognizing an object with great deepening into the following levels of the hierarchy of objects can be performed once in a single session, or several times after a certain set time interval, of information exchange. The rest of the time, you can use the simplified recognition algorithm, which includes the recognition of the image of an object according to a rough template. A simplified algorithm can be used if the objects have not changed their position or are out of touch with each other.
+There are two types of images in the object - coarse and precise.
+An accurate image is necessary to identify a specific object, for example, a user - the owner of the house, a rough one - for further monitoring of his actions.
+Rough and accurate images must be cast to the same id value, or part of its value, where the next value will indicate the type of image.
+A crude image may be suitable for more accurate images.
+A rough image can be used for preliminary recognition of a new object, recognition of the type of object.
+
+Question. Is the gross image based on an accurate image using tolerance? Is there a separate file that describes rough tolerance optional?
+Answer. For the reliability (assessment) of pattern recognition results, the tolerance value is responsible.
+
+The essence of recognition is to obtain, as a result, an assessment of the comparison of two images - contours.
+In this case, the assessment should be obtained only if the contour elements coincide, not others - external or internal.
+
+When forming the recognition algorithm, it is necessary to use the value of the thickness of the image contour, which depends on the following values:
+- The thickness of the contour, which depends on the size of the photoelectric element;
+- The size of the tolerance, which depends on the signal-to-noise characteristics of the photoelectric elements of the camera matrix, and is expressed by a physical quantity;
+- The size of the “rough tolerance” value, which depends on the level of the rough definition of the contour and is expressed by a physical quantity.
+
+It must be remembered that with increasing distance between the object and the camera, the thickness of the contour must also change. In a real task, this is practically impossible to do. The problem is the imperfection of optical systems, which is caused by the phenomena of diffraction and aberrations: to bring the transmission function of the modulation of the optical system to an ideal characteristic.
+
+In practice, previously, the tolerance value (- / + value) is added to the thickness of the contour of the image of the object to determine the exact images, and, in addition, the “rough tolerance” for determining the rough images.
+Both values ​​- tolerance and “rough tolerance” are used in the ImageRecognition class. Signal errors must be calibrated and described in the MachineVisionSystem class.
+
+
+An object that changes its shape.
+Conclusion. At the moment, it is necessary to use well-known methods for highlighting contours in the image, such as Canny, Laplacian and Otsu. In some cases, first, it is necessary to perform the image smoothing procedure.
+
+Question. How to determine the image (object) of the head, if one of the sub-images, or several, can change over time? For example, a change of haircut, including due to hair growth.
+Solution options.
+- Use for the comparison procedure of some parts of the image - splitting into separate parts of the image outline.
+- First, the recognition of the object is carried out using images of objects that are at the lower level of the hierarchy of objects, according to the established threshold value of the level.
+- Use of images of the collected object.
+- Enter a parameter that would indicate a possible change in the shape of the object. For example, boolean isMultiform. If a sub-object can transform (change its shape), then the appearance of the assembled object may differ from the original. This parameter can be described, for example, a T-shirt, the shape of the image of which can be changed depending on the actions applied to it.
+
+How can one recognize such object (s)? The error in the determination will be quite high.
+You can split the image into several parts (from p. 1) or even form a model based on several parts of different images.
+Answer. The model is not static, it is dynamic. This model is two-dimensional.
+The recognition result is the assessment (s) of the procedure for comparing all images, or rather their individual parts that were recorded in the database, with the resulting image.
+The Boolean results of the procedure for comparing two separate parts are summarized. Based on the result of the summation and the threshold value, the image belongs to a specific object.
+
+
+The process of learning and recognition.
+Recognition stages.
+- Set the type of object. (Coarse recognition)
+- Recognition of the object in detail. (Accurate recognition)
+
+In order to establish the type of object, initially, it is necessary to install several types of similar objects from the total number that are recorded in the database.
+The procedure for determining the type of object should be carried out using a “rough tolerance”. Individual parts are not taken into account.
+
+Question. How can I set a new type of a new object, or even the first object? That case when the system has absolutely no information.
+Most likely, you will have to enter data “manually” using the keyboard.
+
+An integrated approach is proposed, which is based on the following sequence of actions.
+1) For training and recording the first object - the user, as the owner of the house.
+	1. Using the Otsu method to distinguish a path from the difference of two images that were obtained sequentially from a video stream, or using a similar method that is based on processing an image that is formed by the difference of two images. The method allows you to get a rough form of a new object that was in motion (or the system was in motion).
+	2. Using the Canny or Laplacian method to highlight the contours in the rough image of a new object.
+	3. Using a method that allows you to capture a certain area of ​​a closed loop with subsequent iterative addition of neighboring areas to it inside the rough image of a new object, in order to obtain an object hierarchy of objects and its image. Objects and their images are added starting from the first level of the hierarchy of objects and ending with the level specified by the threshold value.
+
+2) For training and recording third-party objects in a static mode of operation - without using the mechanical interaction of a person with the environment using engine blocks; when using just one camera.
+	1. Using the Canny or Laplacian method to highlight the contours in the image.
+	2. Using a method that allows you to capture a certain area of ​​the closed loop in the central part of the entire image, according to the action of the human visual system, followed by iteratively adding neighboring areas to it inside the rough image of a new object, in order to obtain an object hierarchy of objects and its image. Objects and their images are added starting from the first level of the hierarchy of objects and ending with the level specified by the threshold value.
+
+3) For recognition of objects that are known or have a similar shape.
+	1. If the object is in motion, not static in time, you should use the Otsu method to extract the outline from the difference of two images that were obtained sequentially from the video stream, or use a similar method that is based on processing an image that is formed by the difference of two images. The method allows you to get a rough shape of the object.
+	2. Using the Canny or Laplacian method to highlight the contours in the image, including the rough shape of the object.
+	3. The procedure for comparing rough forms of objects is carried out. Several similar types can be distinguished.
+	4. The procedure for comparing images of objects in the hierarchy of objects is performed. Parts analysis is in progress. Perhaps the object is new to the person, but its type is set.
+
+
+Training with a teacher. First object.
+The action of the method of 1.3 and 2.2 is accompanied by a dialogue between the person and the user, more precisely the user’s phrases. Among which:
+- Finish (image is formed);
+- Cancel (cancel all actions);
+- Save (the total area is saved);
+- No / yes (response to the request for the next action).
+After the formation of each image, it is necessary to assign a type, a name and add it to the hierarchy of objects, also set id.
+
+Question. What should be the following actions for the device of the next part of the image area, if the contour of the image is not closed?
+Answer. A procedure is needed to ensure that the circuit in the image closes at the specified location.
+Question. How can this be done?
+Search for information regarding pattern recognition tasks, highlighting contours, filling out and linking circuit endings.
+Own proposed solution. Use a mask of size NxN, where the center of the mask corresponds to the end point of the contour, to search for the nearest neighboring contours. When determining one or more endings of adjacent contours, fill in the missing contour between it or them. To improve the method, you can use, in addition, comparison with the converted image, on which the contours were highlighted using another method (for example, the Canny method and the Laplacian method, respectively).
+
+A function is needed that allows you to explore and edit data about an object and its hierarchy. The function can be called in real time.
+
+It is necessary to consider the interaction between objects at an early stage!
+The first object is the user, can be dressed in a t-shirt and pants. Objects of the trunk and legs cannot be recorded, or some data can be recorded, but not an exact image and hierarchy.
+
+Question. Can there be such a type of training as teaching without a teacher, and how is it carried out for a person?
+Answer. A person can be trained without a teacher to perform any action by the sequence of actions that the user performs, or by some third-party signs. Formed knowledge can be given the name "skill" *.
+*Skill - a method mastered by a subject to perform an action, provided by a combination of acquired knowledge and skills.
